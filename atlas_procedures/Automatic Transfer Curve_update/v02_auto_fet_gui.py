@@ -48,7 +48,7 @@ class MainWindow(ManagedDockWindow):
 
     def __init__(self):
         boxes = ['atlas_addr', 'study_id', 'wafer_id','map_1_chip_id', 'map_2_chip_id','map_3_chip_id',
-                 'V_g_start','V_g_end','V_g_sweep_rate','V_d','SD_current_range','G_current_range']
+                 'V_g_start','V_g_end','V_g_sweep_rate','V_d']
         
         super(MainWindow, self).__init__(
             procedure_class=v02_AutoFETProcedure,

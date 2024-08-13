@@ -69,7 +69,6 @@ class v02_AutoFETProcedure(Procedure):
     # For the Keithley 2611
     V_g_start = FloatParameter('Vg Start', units='V', default=-20)
     V_g_end = FloatParameter('Vg End', units='V', default=60)
-    V_g_step = FloatParameter('Vg Step', units='V', default=1)
     V_g_sweep_rate = FloatParameter('Vg Sweep Rate', units='V/s', default=2)
 
     #Info for ATLAS
@@ -78,10 +77,6 @@ class v02_AutoFETProcedure(Procedure):
     device = IntegerParameter('Device', default=1)
     map_id = IntegerParameter('MAP', default=1)
     map_config = IntegerParameter('MAP Config', default=0)
-    
-    # Instrument setting
-    SD_current_range = FloatParameter('Current Range (Source/Drain)', units='A', default=1E-4)
-    G_current_range = FloatParameter('Current Range (Gate)', units='A', default=1E-6)
     
     # Defining data columns
     DATA_COLUMNS = ['timestamp','Gate Voltage (V)', 'Gate Current (A)', 'Drain Current (A)', 'abs(Drain Current) (A)']
@@ -106,7 +101,7 @@ class v02_AutoFETProcedure(Procedure):
         self.K2611sourcemeter.reset()
         self.K2611sourcemeter.ChA.source_output = 'OFF'             
         self.K2611sourcemeter.ChA.apply_voltage(voltage_range=None,compliance_current=0.01)
-        self.K2611sourcemeter.ChA.measure_current(nplc=1, current=self.G_current_range, auto_range=False)
+        self.K2611sourcemeter.ChA.measure_current(nplc=1, auto_range=True)
         self.K2611sourcemeter.ChA.wires_mode = '2'
         self.K2611sourcemeter.ChA.source_output = 'ON'
         self.K2611sourcemeter.ChA.source_voltage = 0
@@ -122,7 +117,7 @@ class v02_AutoFETProcedure(Procedure):
         self.K2400sourcemeter.apply_voltage(voltage_range=None, compliance_current=0.01)
         self.K2400sourcemeter.auto_zero = 1
         self.K2400sourcemeter.source_delay_auto = True
-        self.K2400sourcemeter.measure_current(nplc=1, current=self.SD_current_range, auto_range=False)
+        self.K2400sourcemeter.measure_current(nplc=1, auto_range=True)
         self.K2400sourcemeter.filter_type = 'REP'
         self.K2400sourcemeter.filter_count = 3
         self.K2400sourcemeter.filter_state = 'ON'
